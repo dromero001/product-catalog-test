@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS product (
+    sku VARCHAR(255) PRIMARY KEY,
+    price DOUBLE NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    category VARCHAR(255) NOT NULL
+);
