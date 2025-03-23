@@ -17,7 +17,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <kotlin.version>2.0.20</kotlin.version>
+        <kotlin.version>1.9.25</kotlin.version>
         <mockk.version>1.13.13</mockk.version>
     </properties>
 
@@ -95,7 +95,7 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>1.9.25</version>
+                <version>${kotlin.version}</version>
                 <executions>
                     <execution>
                         <id>compile</id>
