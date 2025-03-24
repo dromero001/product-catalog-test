@@ -89,7 +89,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.product.productcatalog.ProductCatalogApplication</mainClass>
+                    <mainClass>src.main.kotlin.com.product.productcatalog.ProductCatalogApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
