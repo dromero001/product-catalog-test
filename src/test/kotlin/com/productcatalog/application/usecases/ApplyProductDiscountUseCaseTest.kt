@@ -7,7 +7,7 @@ import io.mockk.verify
 import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import src.main.kotlin.com.productcatalog.application.usecases.ApplyProductDiscountUseCase
-import src.main.kotlin.com.productcatalog.domain.Product
+import src.main.kotlin.com.productcatalog.domain.model.Product
 import src.main.kotlin.com.productcatalog.domain.ProductPriceAfterDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.DiscountStrategyApplier
 import src.main.kotlin.com.productcatalog.domain.discount.a25PercentDiscount

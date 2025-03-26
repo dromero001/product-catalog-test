@@ -1,4 +1,4 @@
-package src.main.kotlin.com.productcatalog.domain
+package src.main.kotlin.com.productcatalog.domain.model
 
 import jakarta.persistence.Entity
 import jakarta.persistence.Id

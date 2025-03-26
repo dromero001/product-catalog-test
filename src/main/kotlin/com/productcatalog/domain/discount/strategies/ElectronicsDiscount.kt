@@ -2,7 +2,7 @@ package src.main.kotlin.com.productcatalog.domain.discount.strategies
 
 import java.math.BigDecimal.ZERO
 import java.math.RoundingMode.HALF_UP
-import src.main.kotlin.com.productcatalog.domain.Product
+import src.main.kotlin.com.productcatalog.domain.model.Product
 import src.main.kotlin.com.productcatalog.domain.ProductPriceAfterDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.DiscountStrategy
 import src.main.kotlin.com.productcatalog.domain.discount.ELECTRONICS_CATEGORY

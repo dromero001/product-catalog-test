@@ -7,7 +7,7 @@ import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import src.main.kotlin.com.productcatalog.domain.Product
+import src.main.kotlin.com.productcatalog.domain.model.Product
 import src.main.kotlin.com.productcatalog.domain.ProductPriceAfterDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.ELECTRONICS_CATEGORY
 import src.main.kotlin.com.productcatalog.domain.discount.HOME_KITCHEN_CATEGORY

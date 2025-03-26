@@ -6,7 +6,7 @@ import io.mockk.mockk
 import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import org.junit.jupiter.api.Test
-import src.main.kotlin.com.productcatalog.domain.Product
+import src.main.kotlin.com.productcatalog.domain.model.Product
 import src.main.kotlin.com.productcatalog.domain.ProductPriceAfterDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.a30PercentDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.strategies.SpecialSKUDiscount
