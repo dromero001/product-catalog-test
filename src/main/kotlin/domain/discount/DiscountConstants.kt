@@ -1,4 +1,4 @@
-package src.main.kotlin.com.product.productcatalog.domain.discount
+package src.main.kotlin.domain.discount
 
 import java.math.BigDecimal
 

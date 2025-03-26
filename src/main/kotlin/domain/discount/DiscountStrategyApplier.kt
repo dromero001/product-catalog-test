@@ -1,7 +1,7 @@
-package src.main.kotlin.com.product.productcatalog.domain.discount
+package src.main.kotlin.domain.discount
 
-import src.main.kotlin.com.product.productcatalog.domain.Product
 import java.math.BigDecimal
+import src.main.kotlin.domain.Product
 
 class DiscountStrategyApplier(private val strategies: List<DiscountStrategy>) {
 

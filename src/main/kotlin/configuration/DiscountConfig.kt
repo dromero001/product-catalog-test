@@ -1,10 +1,10 @@
-package src.main.kotlin.com.product.productcatalog.configuration
+package src.main.kotlin.configuration
 
-import src.main.kotlin.com.product.productcatalog.domain.discount.DiscountStrategy
-import src.main.kotlin.com.product.productcatalog.domain.discount.DiscountStrategyApplier
-import src.main.kotlin.com.product.productcatalog.domain.discount.strategies.ElectronicsDiscount
-import src.main.kotlin.com.product.productcatalog.domain.discount.strategies.HomeKitchenDiscount
-import src.main.kotlin.com.product.productcatalog.domain.discount.strategies.SpecialSKUDiscount
+import src.main.kotlin.domain.discount.DiscountStrategy
+import src.main.kotlin.domain.discount.DiscountStrategyApplier
+import src.main.kotlin.domain.discount.strategies.ElectronicsDiscount
+import src.main.kotlin.domain.discount.strategies.HomeKitchenDiscount
+import src.main.kotlin.domain.discount.strategies.SpecialSKUDiscount
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

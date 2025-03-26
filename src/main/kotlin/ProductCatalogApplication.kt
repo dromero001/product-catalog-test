@@ -1,4 +1,4 @@
-package src.main.kotlin.com.product.productcatalog
+package src.main.kotlin
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,4 +1,4 @@
-package src.test.kotlin.com.product.productcatalog
+package src.test.kotlin
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
