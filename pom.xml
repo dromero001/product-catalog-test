@@ -72,6 +72,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>io.kotest</groupId>
+            <artifactId>kotest-assertions-core-jvm</artifactId>
+            <version>5.8.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
@@ -89,7 +95,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>src.main.kotlin.com.product.productcatalog.ProductCatalogApplication</mainClass>
+                    <mainClass>src.main.kotlin.ProductCatalogApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
