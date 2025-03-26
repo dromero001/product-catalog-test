@@ -12,7 +12,6 @@ import src.main.kotlin.com.productcatalog.domain.ProductPriceAfterDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.ELECTRONICS_CATEGORY
 import src.main.kotlin.com.productcatalog.domain.discount.HOME_KITCHEN_CATEGORY
 import src.main.kotlin.com.productcatalog.domain.discount.a15PercentDiscount
-import src.main.kotlin.com.productcatalog.domain.discount.a25PercentDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.strategies.ElectronicsDiscount
 
 class ElectronicsDiscountTest {
