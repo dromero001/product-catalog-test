@@ -13,5 +13,5 @@ data class Product(
     val sku: String = "",
     val price: BigDecimal = ZERO,
     val description: String = "",
-    val category: String = ""
+    val category: String = "",
 )

@@ -9,6 +9,7 @@ import jakarta.persistence.TypedQuery
 import java.math.BigDecimal
 import org.junit.jupiter.api.Test
 import src.main.kotlin.com.productcatalog.domain.discount.ELECTRONICS_CATEGORY
+import src.main.kotlin.com.productcatalog.domain.discount.HOME_KITCHEN_CATEGORY
 import src.main.kotlin.com.productcatalog.domain.model.Product
 import src.main.kotlin.com.productcatalog.infraestructure.persistence.JpaProductRepository
 
@@ -57,9 +58,9 @@ class JpaProductRepositoryTest {
 
     companion object {
         private val testProducts = listOf(
-            Product("SKU0001", BigDecimal("19.99"), "Wireless Mouse with ergonomic design", "Electronics"),
-            Product("SKU0002", BigDecimal("499.00"), "4K Ultra HD Smart TV, 55 inches", "Electronics"),
-            Product("SKU0003", BigDecimal("29.50"), "Stainless Steel Water Bottle, 1L", "Home & Kitchen")
+            Product("SKU0001", BigDecimal("19.99"), "Wireless Mouse with ergonomic design", ELECTRONICS_CATEGORY),
+            Product("SKU0002", BigDecimal("499.00"), "4K Ultra HD Smart TV, 55 inches", ELECTRONICS_CATEGORY),
+            Product("SKU0003", BigDecimal("29.50"), "Stainless Steel Water Bottle, 1L", HOME_KITCHEN_CATEGORY)
         )
     }
 }

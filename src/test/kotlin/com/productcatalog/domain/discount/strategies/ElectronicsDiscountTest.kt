@@ -7,12 +7,12 @@ import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import src.main.kotlin.com.productcatalog.domain.model.Product
 import src.main.kotlin.com.productcatalog.domain.ProductPriceAfterDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.ELECTRONICS_CATEGORY
 import src.main.kotlin.com.productcatalog.domain.discount.HOME_KITCHEN_CATEGORY
 import src.main.kotlin.com.productcatalog.domain.discount.a15PercentDiscount
 import src.main.kotlin.com.productcatalog.domain.discount.strategies.ElectronicsDiscount
+import src.main.kotlin.com.productcatalog.domain.model.Product
 
 class ElectronicsDiscountTest {
 
@@ -41,9 +41,7 @@ class ElectronicsDiscountTest {
 
         mockProduct(HOME_KITCHEN_CATEGORY)
 
-        val result = discountStrategy.applyDiscount(product)
-
-        result shouldBe ProductPriceAfterDiscount(
+        discountStrategy.applyDiscount(product) shouldBe ProductPriceAfterDiscount(
             originalPrice = BigDecimal("100.00"),
             discountPercentage = ZERO,
             finalPrice = BigDecimal("100.00")

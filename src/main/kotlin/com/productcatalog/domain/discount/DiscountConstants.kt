@@ -13,3 +13,4 @@ val a15PercentDiscountMultiplier = BigDecimal("0.85")
 const val SPECIAL_SKU_SUFFIX = "5"
 const val ELECTRONICS_CATEGORY = "Electronics"
 const val HOME_KITCHEN_CATEGORY = "Home & Kitchen"
+const val CLOTHING_CATEGORY = "Clothing"

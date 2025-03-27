@@ -35,9 +35,7 @@ class SpecialSKUDiscountTest {
         every { product.sku } returns "SKU0006"
         every { product.price } returns BigDecimal("100.00")
 
-        val result = discountStrategy.applyDiscount(product)
-
-        result shouldBe ProductPriceAfterDiscount(
+        discountStrategy.applyDiscount(product) shouldBe ProductPriceAfterDiscount(
             originalPrice = BigDecimal("100.00"),
             discountPercentage = ZERO,
             finalPrice = BigDecimal("100.00")

@@ -41,9 +41,7 @@ class HomeKitchenDiscountTest {
 
         mockProduct(ELECTRONICS_CATEGORY)
 
-        val result = discountStrategy.applyDiscount(product)
-
-        result shouldBe ProductPriceAfterDiscount(
+        discountStrategy.applyDiscount(product) shouldBe ProductPriceAfterDiscount(
             originalPrice = BigDecimal("100.00"),
             discountPercentage = ZERO,
             finalPrice = BigDecimal("100.00")
