@@ -4,7 +4,7 @@ import java.math.BigDecimal
 
 data class ProductResponse(
     val sku: String,
-    val name: String,
+    val description: String,
     val category: String,
     val originalPrice: BigDecimal,
     val finalPrice: BigDecimal,

@@ -22,7 +22,7 @@ class ProductController(
         return getProductsUseCase.execute(category, sortBy, sortOrder).map { (product, priceData) ->
             ProductResponse(
                 sku = product.sku,
-                name = product.description,
+                description = product.description,
                 category = product.category,
                 originalPrice = priceData.originalPrice,
                 finalPrice = priceData.finalPrice,

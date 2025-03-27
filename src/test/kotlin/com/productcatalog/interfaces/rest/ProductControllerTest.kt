@@ -55,7 +55,7 @@ class ProductControllerTest {
             [
                 {
                     "sku": "SKU0002",
-                    "name": "4K Ultra HD Smart TV, 55 inches",
+                    "description": "4K Ultra HD Smart TV, 55 inches",
                     "category": "Electronics",
                     "originalPrice": 499.00,
                     "finalPrice": 424.15,
@@ -89,7 +89,7 @@ class ProductControllerTest {
             .andExpect(content().json("""
             [{
                 "sku": "SKU0005",
-                "name": "Noise-Cancelling Over-Ear Headphones",
+                "description": "Noise-Cancelling Over-Ear Headphones",
                 "category": "Electronics",
                 "originalPrice": 120.00,
                 "finalPrice": 84.00,
@@ -139,7 +139,7 @@ class ProductControllerTest {
             [
                 {
                     "sku": "SKU0004",
-                    "name": "Cotton T-Shirt",
+                    "description": "Cotton T-Shirt",
                     "category": "Clothing",
                     "originalPrice": 15.00,
                     "finalPrice": 15.00,
@@ -147,7 +147,7 @@ class ProductControllerTest {
                 },
                 {
                     "sku": "SKU0002",
-                    "name": "Smart TV",
+                    "description": "Smart TV",
                     "category": "Electronics",
                     "originalPrice": 499.00,
                     "finalPrice": 424.15,
@@ -186,7 +186,7 @@ class ProductControllerTest {
             [
                 {
                     "sku": "SKU0002",
-                    "name": "Smart TV",
+                    "description": "Smart TV",
                     "category": "Electronics",
                     "originalPrice": 499.00,
                     "finalPrice": 424.15,
@@ -194,7 +194,7 @@ class ProductControllerTest {
                 },
                 {
                     "sku": "SKU0004",
-                    "name": "Cotton T-Shirt",
+                    "description": "Cotton T-Shirt",
                     "category": "Clothing",
                     "originalPrice": 15.00,
                     "finalPrice": 15.00,
@@ -215,7 +215,7 @@ class ProductControllerTest {
             }
             is ProductResponse -> """{
                 "sku": "$sku",
-                "name": "$name",
+                "description": "$description",
                 "category": "$category",
                 "originalPrice": ${originalPrice},
                 "finalPrice": ${finalPrice},
