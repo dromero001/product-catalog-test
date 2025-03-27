@@ -16,8 +16,10 @@ class ProductController(
     @GetMapping
     fun listProducts(
         @RequestParam(required = false) category: String?,
+        @RequestParam(required = false, defaultValue = "sku") sortBy: String,
+        @RequestParam(required = false, defaultValue = "asc") sortOrder: String,
     ): List<ProductResponse> {
-        return getProductsUseCase.execute(category).map { (product, priceData) ->
+        return getProductsUseCase.execute(category, sortBy, sortOrder).map { (product, priceData) ->
             ProductResponse(
                 sku = product.sku,
                 name = product.description,

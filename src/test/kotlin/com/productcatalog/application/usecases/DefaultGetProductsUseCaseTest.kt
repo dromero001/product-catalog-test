@@ -7,6 +7,7 @@ import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.mockito.Mockito.verify
 import src.main.kotlin.com.productcatalog.application.usecases.ApplyProductDiscountUseCase
 import src.main.kotlin.com.productcatalog.application.usecases.DefaultGetProductsUseCase
 import src.main.kotlin.com.productcatalog.application.usecases.GetProductsUseCase
@@ -53,14 +54,68 @@ class DefaultGetProductsUseCaseTest {
 
         every { productRepository.findByCategory(ELECTRONICS_CATEGORY) } returns listOf(specialProduct, normalProduct)
         every { applyDiscount.execute(specialProduct) } returns
-                createDiscount(specialProduct, a30PercentDiscount, BigDecimal("140.00"))
+                ProductPriceAfterDiscount(
+                    originalPrice = specialProduct.price,
+                    discountPercentage = a30PercentDiscount,
+                    finalPrice = BigDecimal("140.00")
+                )
         every { applyDiscount.execute(normalProduct) } returns
-                createDiscount(normalProduct, a15PercentDiscount, BigDecimal("170.00"))
+                ProductPriceAfterDiscount(
+                    originalPrice = normalProduct.price,
+                    discountPercentage = a15PercentDiscount,
+                    finalPrice = BigDecimal("170.00")
+                )
 
-        defaultGetProductsUseCase.execute(ELECTRONICS_CATEGORY) shouldBe listOf(
-            specialProduct to createDiscount(specialProduct, a30PercentDiscount, BigDecimal("140.00")),
-            normalProduct to createDiscount(normalProduct, a15PercentDiscount, BigDecimal("170.00"))
+        defaultGetProductsUseCase.execute(ELECTRONICS_CATEGORY, "sku", "asc") shouldBe listOf(
+            normalProduct to ProductPriceAfterDiscount(
+                originalPrice = normalProduct.price,
+                discountPercentage = a15PercentDiscount,
+                finalPrice = BigDecimal("170.00")
+            ),
+            specialProduct to ProductPriceAfterDiscount(
+                originalPrice = specialProduct.price,
+                discountPercentage = a30PercentDiscount,
+                finalPrice = BigDecimal("140.00")
+            )
         )
+    }
+
+    @Test
+    fun `should return products sorted by sku ascending when no sort params`() {
+
+        every { productRepository.findAll() } returns allProducts
+        discounts.forEachIndexed { i, discount ->
+            every { applyDiscount.execute(allProducts[i]) } returns discount
+        }
+
+        val result = defaultGetProductsUseCase.execute(null)
+
+        result.map { it.first.sku } shouldBe listOf("SKU0002", "SKU0003", "SKU0004", "SKU0005")
+    }
+
+    @Test
+    fun `should return products sorted by price descending`() {
+
+        every { productRepository.findAll() } returns allProducts
+        discounts.forEachIndexed { i, discount ->
+            every { applyDiscount.execute(allProducts[i]) } returns discount
+        }
+
+        val result = defaultGetProductsUseCase.execute(null, "price", "desc")
+
+        result.map { it.first.sku } shouldBe listOf("SKU0002", "SKU0005", "SKU0003", "SKU0004")
+    }
+
+    @Test
+    fun `should return electronics sorted by description ascending`() {
+
+        every { productRepository.findByCategory(ELECTRONICS_CATEGORY) } returns listOf(TV, HEADPHONES)
+        every { applyDiscount.execute(TV) } returns discounts[0]
+        every { applyDiscount.execute(HEADPHONES) } returns discounts[3]
+
+        val result = defaultGetProductsUseCase.execute(ELECTRONICS_CATEGORY, "description", "asc")
+
+        result.map { it.first.sku } shouldBe listOf("SKU0002", "SKU0005")
     }
 
     companion object {
@@ -78,10 +133,10 @@ class DefaultGetProductsUseCaseTest {
             createDiscount(HEADPHONES, a30PercentDiscount, BigDecimal("84.00")),
         )
 
-        val specialProduct = Product("SKU1235", BigDecimal("200.00"), "Special Product", ELECTRONICS_CATEGORY)
-        val normalProduct = Product("SKU1234", BigDecimal("200.00"), "Normal Product", ELECTRONICS_CATEGORY)
+        val specialProduct = Product("SKU0005", BigDecimal("200.00"), "Special Product", ELECTRONICS_CATEGORY)
+        val normalProduct = Product("SKU0004", BigDecimal("200.00"), "Normal Product", ELECTRONICS_CATEGORY)
 
-        fun createDiscount(product: Product, percentage: BigDecimal, finalPrice: BigDecimal) =
+        private fun createDiscount(product: Product, percentage: BigDecimal, finalPrice: BigDecimal) =
             ProductPriceAfterDiscount(
                 originalPrice = product.price,
                 discountPercentage = percentage,

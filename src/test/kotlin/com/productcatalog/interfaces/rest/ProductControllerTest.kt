@@ -5,6 +5,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.math.BigDecimal
+import java.math.BigDecimal.ZERO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.test.web.servlet.MockMvc
@@ -107,6 +108,100 @@ class ProductControllerTest {
             .andExpect {
                 it.response.contentAsString shouldBe emptyList<ProductResponse>().toJson()
             }
+    }
+
+    @Test
+    fun `should return products sorted by category ascending`() {
+        val products = listOf(
+            Pair(
+                Product("SKU0004", BigDecimal("15.00"), "Cotton T-Shirt", "Clothing"),
+                ProductPriceAfterDiscount(
+                    originalPrice = BigDecimal("15.00"),
+                    discountPercentage = ZERO,
+                    finalPrice = BigDecimal("15.00")
+                )
+            ),
+            Pair(
+                Product("SKU0002", BigDecimal("499.00"), "Smart TV", "Electronics"),
+                ProductPriceAfterDiscount(
+                    originalPrice = BigDecimal("499.00"),
+                    discountPercentage = BigDecimal("0.15"),
+                    finalPrice = BigDecimal("424.15")
+                )
+            )
+        )
+
+        every { getProductsUseCase.execute(null, "category", "asc") } returns products
+
+        mockMvc.perform(get("/api/products?sortBy=category&sortOrder=asc"))
+            .andExpect(status().isOk)
+            .andExpect(content().json("""
+            [
+                {
+                    "sku": "SKU0004",
+                    "name": "Cotton T-Shirt",
+                    "category": "Clothing",
+                    "originalPrice": 15.00,
+                    "finalPrice": 15.00,
+                    "discountApplied": 0
+                },
+                {
+                    "sku": "SKU0002",
+                    "name": "Smart TV",
+                    "category": "Electronics",
+                    "originalPrice": 499.00,
+                    "finalPrice": 424.15,
+                    "discountApplied": 15
+                }
+            ]
+        """))
+    }
+
+    @Test
+    fun `should return products sorted by price descending`() {
+        val products = listOf(
+            Pair(
+                Product("SKU0002", BigDecimal("499.00"), "Smart TV", "Electronics"),
+                ProductPriceAfterDiscount(
+                    originalPrice = BigDecimal("499.00"),
+                    discountPercentage = BigDecimal("0.15"),
+                    finalPrice = BigDecimal("424.15")
+                )
+            ),
+            Pair(
+                Product("SKU0004", BigDecimal("15.00"), "Cotton T-Shirt", "Clothing"),
+                ProductPriceAfterDiscount(
+                    originalPrice = BigDecimal("15.00"),
+                    discountPercentage = ZERO,
+                    finalPrice = BigDecimal("15.00")
+                )
+            )
+        )
+
+        every { getProductsUseCase.execute(null, "price", "desc") } returns products
+
+        mockMvc.perform(get("/api/products?sortBy=price&sortOrder=desc"))
+            .andExpect(status().isOk)
+            .andExpect(content().json("""
+            [
+                {
+                    "sku": "SKU0002",
+                    "name": "Smart TV",
+                    "category": "Electronics",
+                    "originalPrice": 499.00,
+                    "finalPrice": 424.15,
+                    "discountApplied": 15
+                },
+                {
+                    "sku": "SKU0004",
+                    "name": "Cotton T-Shirt",
+                    "category": "Clothing",
+                    "originalPrice": 15.00,
+                    "finalPrice": 15.00,
+                    "discountApplied": 0
+                }
+            ]
+        """))
     }
 
     private fun Any.toJson(): String {
