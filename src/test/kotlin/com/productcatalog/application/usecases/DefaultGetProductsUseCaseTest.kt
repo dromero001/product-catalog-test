@@ -7,7 +7,6 @@ import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito.verify
 import src.main.kotlin.com.productcatalog.application.usecases.ApplyProductDiscountUseCase
 import src.main.kotlin.com.productcatalog.application.usecases.DefaultGetProductsUseCase
 import src.main.kotlin.com.productcatalog.application.usecases.GetProductsUseCase
