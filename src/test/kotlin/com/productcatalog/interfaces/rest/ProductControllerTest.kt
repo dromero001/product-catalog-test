@@ -58,7 +58,7 @@ class ProductControllerTest {
                     "category": "Electronics",
                     "originalPrice": 499.00,
                     "finalPrice": 424.15,
-                    "discountApplied": 0.15
+                    "discountApplied": 15
                 }
             ]
         """))
@@ -92,7 +92,7 @@ class ProductControllerTest {
                 "category": "Electronics",
                 "originalPrice": 120.00,
                 "finalPrice": 84.00,
-                "discountApplied": 0.30
+                "discountApplied": 30
             }]
         """))
     }
@@ -124,7 +124,7 @@ class ProductControllerTest {
                 "category": "$category",
                 "originalPrice": ${originalPrice},
                 "finalPrice": ${finalPrice},
-                "discountApplied": ${discountApplied}
+                "discountApplied": $discountApplied
             }""".trimIndent()
             else -> toString()
         }

@@ -6,7 +6,7 @@ import src.main.kotlin.com.productcatalog.domain.model.Product
 import src.main.kotlin.com.productcatalog.domain.repository.ProductRepository
 
 @Repository
-class JpaProductRepository(
+open class JpaProductRepository(
     private val entityManager: EntityManager
 ) : ProductRepository {
 

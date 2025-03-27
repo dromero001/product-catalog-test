@@ -1,5 +1,6 @@
 package src.main.kotlin.com.productcatalog.interfaces.rest
 
+import java.math.BigDecimal
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -23,7 +24,7 @@ class ProductController(
                 category = product.category,
                 originalPrice = priceData.originalPrice,
                 finalPrice = priceData.finalPrice,
-                discountApplied = priceData.discountPercentage
+                discountApplied = priceData.discountPercentage * BigDecimal(100)
             )
         }
     }
