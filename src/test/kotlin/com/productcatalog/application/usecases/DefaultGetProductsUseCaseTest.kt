@@ -7,6 +7,8 @@ import java.math.BigDecimal
 import java.math.BigDecimal.ZERO
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.PageRequest
 import src.main.kotlin.com.productcatalog.application.usecases.ApplyProductDiscountUseCase
 import src.main.kotlin.com.productcatalog.application.usecases.DefaultGetProductsUseCase
 import src.main.kotlin.com.productcatalog.application.usecases.GetProductsUseCase
@@ -32,93 +34,38 @@ class DefaultGetProductsUseCaseTest {
     }
 
     @Test
-    fun `should apply 30 percent discount for SKU ending with 5 and category discounts for others`() {
+    fun `should apply discounts and return paginated results`() {
+        val pageable = PageRequest.of(0, 2)
+        val productPage = PageImpl(allProducts.subList(0, 2), pageable, allProducts.size.toLong())
 
-        every { productRepository.findAll() } returns allProducts
-
-        discounts.forEachIndexed { i, discount ->
-            every { applyDiscount.execute(allProducts[i]) } returns discount
-        }
-
-        defaultGetProductsUseCase.execute(null,"sku","asc") shouldBe listOf(
-            TV to discounts[0],
-            BOTTLE to discounts[1],
-            TSHIRT to discounts[2],
-            HEADPHONES to discounts[3]
-        )
-    }
-
-    @Test
-    fun `should prioritize SKU discount over category discount`() {
-
-        every { productRepository.findByCategory(ELECTRONICS_CATEGORY) } returns listOf(specialProduct, normalProduct)
-        every { applyDiscount.execute(specialProduct) } returns
-                ProductPriceAfterDiscount(
-                    originalPrice = specialProduct.price,
-                    discountPercentage = a30PercentDiscount,
-                    finalPrice = BigDecimal("140.00")
-                )
-        every { applyDiscount.execute(normalProduct) } returns
-                ProductPriceAfterDiscount(
-                    originalPrice = normalProduct.price,
-                    discountPercentage = a15PercentDiscount,
-                    finalPrice = BigDecimal("170.00")
-                )
-
-        defaultGetProductsUseCase.execute(ELECTRONICS_CATEGORY, "sku", "asc") shouldBe listOf(
-            normalProduct to ProductPriceAfterDiscount(
-                originalPrice = normalProduct.price,
-                discountPercentage = a15PercentDiscount,
-                finalPrice = BigDecimal("170.00")
-            ),
-            specialProduct to ProductPriceAfterDiscount(
-                originalPrice = specialProduct.price,
-                discountPercentage = a30PercentDiscount,
-                finalPrice = BigDecimal("140.00")
-            )
-        )
-    }
-
-    @Test
-    fun `should return products sorted by sku ascending when no sort params`() {
-
-        every { productRepository.findAll() } returns allProducts
-        discounts.forEachIndexed { i, discount ->
-            every { applyDiscount.execute(allProducts[i]) } returns discount
-        }
-
-        val result = defaultGetProductsUseCase.execute(null,"sku", "asc")
-
-        result.map { it.first.sku } shouldBe listOf("SKU0002", "SKU0003", "SKU0004", "SKU0005")
-    }
-
-    @Test
-    fun `should return products sorted by price descending`() {
-
-        every { productRepository.findAll() } returns allProducts
-        discounts.forEachIndexed { i, discount ->
-            every { applyDiscount.execute(allProducts[i]) } returns discount
-        }
-
-        val result = defaultGetProductsUseCase.execute(null, "price", "desc")
-
-        result.map { it.first.sku } shouldBe listOf("SKU0002", "SKU0005", "SKU0003", "SKU0004")
-    }
-
-    @Test
-    fun `should return electronics sorted by description ascending`() {
-
-        every { productRepository.findByCategory(ELECTRONICS_CATEGORY) } returns listOf(TV, HEADPHONES)
+        every { productRepository.findAll(pageable) } returns productPage
         every { applyDiscount.execute(TV) } returns discounts[0]
-        every { applyDiscount.execute(HEADPHONES) } returns discounts[3]
+        every { applyDiscount.execute(BOTTLE) } returns discounts[1]
 
-        val result = defaultGetProductsUseCase.execute(ELECTRONICS_CATEGORY, "description", "asc")
+        val result = defaultGetProductsUseCase.execute(null, pageable)
 
-        result.map { it.first.sku } shouldBe listOf("SKU0002", "SKU0005")
+        result.content shouldBe listOf(
+            TV to discounts[0],
+            BOTTLE to discounts[1]
+        )
+        result.totalElements shouldBe 4
+    }
+
+    @Test
+    fun `should return filtered and paginated results by category`() {
+        val pageable = PageRequest.of(0, 1)
+        val electronicsPage = PageImpl(listOf(TV), pageable, 2)
+
+        every { productRepository.findByCategory(ELECTRONICS_CATEGORY, pageable) } returns electronicsPage
+        every { applyDiscount.execute(TV) } returns discounts[0]
+
+        val result = defaultGetProductsUseCase.execute(ELECTRONICS_CATEGORY, pageable)
+
+        result.content shouldBe listOf(TV to discounts[0])
+        result.totalElements shouldBe 2
     }
 
     companion object {
-
         val TV = Product("SKU0002", BigDecimal("499.00"), "4K Ultra HD Smart TV, 55 inches", ELECTRONICS_CATEGORY)
         val BOTTLE = Product("SKU0003", BigDecimal("29.50"), "Stainless Steel Water Bottle, 1L", HOME_KITCHEN_CATEGORY)
         val TSHIRT = Product("SKU0004", BigDecimal("15.00"), "Cotton T-Shirt, Unisex, Size M", CLOTHING_CATEGORY)
@@ -129,17 +76,14 @@ class DefaultGetProductsUseCaseTest {
             createDiscount(TV, a15PercentDiscount, BigDecimal("424.15")),
             createDiscount(BOTTLE, a25PercentDiscount, BigDecimal("22.13")),
             createDiscount(TSHIRT, ZERO, BigDecimal("15.00")),
-            createDiscount(HEADPHONES, a30PercentDiscount, BigDecimal("84.00")),
+            createDiscount(HEADPHONES, a30PercentDiscount, BigDecimal("84.00"))
         )
-
-        val specialProduct = Product("SKU0005", BigDecimal("200.00"), "Special Product", ELECTRONICS_CATEGORY)
-        val normalProduct = Product("SKU0004", BigDecimal("200.00"), "Normal Product", ELECTRONICS_CATEGORY)
 
         private fun createDiscount(product: Product, percentage: BigDecimal, finalPrice: BigDecimal) =
             ProductPriceAfterDiscount(
                 originalPrice = product.price,
                 discountPercentage = percentage,
-                finalPrice = finalPrice,
+                finalPrice = finalPrice
             )
     }
 }
