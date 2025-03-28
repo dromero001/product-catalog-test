@@ -47,7 +47,7 @@ class ProductControllerTest {
             )
         )
 
-        every { getProductsUseCase.execute(null) } returns products
+        every { getProductsUseCase.execute(null,"sku", "asc") } returns products
 
         mockMvc.perform(get("/api/products"))
             .andExpect(status().isOk)
@@ -64,7 +64,7 @@ class ProductControllerTest {
             ]
         """))
 
-        verify { getProductsUseCase.execute(null) }
+        verify { getProductsUseCase.execute(null,"sku", "asc") }
     }
 
     @Test
@@ -82,7 +82,7 @@ class ProductControllerTest {
             )
         )
 
-        every { getProductsUseCase.execute(category) } returns products
+        every { getProductsUseCase.execute(category,"sku", "asc") } returns products
 
         mockMvc.perform(get("/api/products?category=$category"))
             .andExpect(status().isOk)
@@ -101,7 +101,7 @@ class ProductControllerTest {
     @Test
     fun `should return empty list when no products found`() {
 
-        every { getProductsUseCase.execute(any()) } returns emptyList()
+        every { getProductsUseCase.execute("NonExisting","sku", "asc") } returns emptyList()
 
         mockMvc.perform(get("/api/products?category=NonExisting"))
             .andExpect(status().isOk)

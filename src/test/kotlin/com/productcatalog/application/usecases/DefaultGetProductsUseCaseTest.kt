@@ -40,7 +40,7 @@ class DefaultGetProductsUseCaseTest {
             every { applyDiscount.execute(allProducts[i]) } returns discount
         }
 
-        defaultGetProductsUseCase.execute(null) shouldBe listOf(
+        defaultGetProductsUseCase.execute(null,"sku","asc") shouldBe listOf(
             TV to discounts[0],
             BOTTLE to discounts[1],
             TSHIRT to discounts[2],
@@ -87,7 +87,7 @@ class DefaultGetProductsUseCaseTest {
             every { applyDiscount.execute(allProducts[i]) } returns discount
         }
 
-        val result = defaultGetProductsUseCase.execute(null)
+        val result = defaultGetProductsUseCase.execute(null,"sku", "asc")
 
         result.map { it.first.sku } shouldBe listOf("SKU0002", "SKU0003", "SKU0004", "SKU0005")
     }

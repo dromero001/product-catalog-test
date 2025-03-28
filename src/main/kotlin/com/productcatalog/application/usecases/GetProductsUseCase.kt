@@ -6,7 +6,7 @@ import src.main.kotlin.com.productcatalog.domain.model.Product
 interface GetProductsUseCase {
     fun execute(
         category: String?,
-        sortBy: String = "sku",
-        sortOrder: String = "asc"
+        sortBy: String,
+        sortOrder: String,
     ): List<Pair<Product, ProductPriceAfterDiscount>>
 }
