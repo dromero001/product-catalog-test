@@ -31,6 +31,10 @@ class DiscountStrategyApplierTest {
     @Test
     fun `should apply the strategy with the biggest discount`() {
 
+        every { strategy1.canApply(product) } returns true
+        every { strategy2.canApply(product) } returns true
+        every { strategy3.canApply(product) } returns true
+
         every { strategy1.applyDiscount(product) } returns electronicsDiscount
         every { strategy2.applyDiscount(product) } returns specialSKUDiscount
         every { strategy3.applyDiscount(product) } returns homeKitchenDiscount
@@ -41,9 +45,9 @@ class DiscountStrategyApplierTest {
     @Test
     fun `should return original price if no discount is applied`() {
 
-        every { strategy1.applyDiscount(product) } returns noDiscount
-        every { strategy2.applyDiscount(product) } returns noDiscount
-        every { strategy3.applyDiscount(product) } returns noDiscount
+        every { strategy1.canApply(product) } returns false
+        every { strategy2.canApply(product) } returns false
+        every { strategy3.canApply(product) } returns false
         every { product.price } returns BigDecimal("100.00")
 
         discountStrategyApplier.applyBiggerDiscount(product) shouldBe noDiscount
